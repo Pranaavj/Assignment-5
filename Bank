@@ -1,0 +1,273 @@
+double totalAssets() {
+
+    double total = 0;
+
+    for (int i = 0; i <= accountList.size() - 1; i++)
+
+    {
+
+        if (accountList.get(i).getStatus() == 1)
+
+            total += accountList.get(i).getCurrentBalance();
+
+    }
+
+    return total;
+
+}
+
+void printReport() {
+
+    for (int i = 0; i <= accountList.size() - 1; i++)
+
+    {
+
+        accountList.get(i).printAccount();
+
+        System.out.println("----------------");
+
+    }
+
+}
+
+}
+
+interface InterestBearingAccount {
+
+    void addInterest();
+
+}
+
+abstract class Account {
+
+    private String accountHolder;
+
+    private int accountNumber;
+
+    private char type;
+
+    private double currentBalance;
+
+    private int status;
+
+
+    protected Account(String accountHolder, int accountNumber, char type, double currentBalance, int status) {
+
+        this.accountHolder = accountHolder;
+
+        this.accountNumber = accountNumber;
+
+        this.type = type;
+
+        this.currentBalance = currentBalance;
+
+        this.status = status;
+
+    }
+
+    public String getAccountHolder() {
+
+        return accountHolder;
+
+    }
+
+    public void setAccountHolder(String accountHolder) {
+
+        this.accountHolder = accountHolder;
+
+    }
+
+    public int getAccountNumber() {
+
+        return accountNumber;
+
+    }
+
+    public void setAccountNumber(int accountNumber) {
+
+        this.accountNumber = accountNumber;
+
+    }
+
+    public char getType() {
+
+        return type;
+
+    }
+
+    public void setType(char type) {
+
+        this.type = type;
+
+    }
+
+    public double getCurrentBalance() {
+
+        return currentBalance;
+
+    }
+
+    public void setCurrentBalance(double currentBalance) {
+
+        this.currentBalance = currentBalance;
+
+    }
+
+    public int getStatus() {
+
+        return status;
+
+    }
+
+    public void setStatus(int status) {
+
+        this.status = status;
+
+    }
+
+    void deposit(double amt) {
+
+
+        currentBalance += amt;
+
+    }
+
+    void withdraw(double amt) {
+
+        if (amt <= currentBalance)
+
+            currentBalance -= amt;
+
+        else
+
+            System.out.println("not enough balance");
+
+    }
+
+    void printAccount() {
+
+        System.out.println("Account number :" + accountNumber);
+
+        System.out.println("Account Holder Name :" + accountHolder);
+
+        System.out.println("Account Type :" + type);
+
+        System.out.println("Current Balance :" + currentBalance);
+
+
+
+        if (status == 1)
+
+            System.out.println("Account status : open");
+
+        else
+
+            System.out.println("Account status : closed");
+
+
+    }
+
+    @Override
+
+    public String toString() {
+
+        return "Account [accountHolder=" + accountHolder + ", accountNumber=" + accountNumber + ", type=" + type
+
+            +
+            ", currentBalance=" + currentBalance + ", status=" + status + "]";
+
+    }
+
+}
+
+class CheckingAccount extends Account {
+
+    protected CheckingAccount(String accountHolder, int accountNumber, char type, double currentBalance, int status) {
+
+        super(accountHolder, accountNumber, type, currentBalance, status);
+
+        
+
+    }
+
+}
+
+class GoldSavingAccount extends Account implements InterestBearingAccount {
+
+
+
+    protected GoldSavingAccount(String accountHolder, int accountNumber, char type, double currentBalance, int status) {
+
+        super(accountHolder, accountNumber, type, currentBalance, status);
+
+    }
+
+    @Override
+
+    public void addInterest() {
+
+        
+
+        double curBalance = getCurrentBalance();
+
+        curBalance += curBalance * 6 / 100;
+
+        setCurrentBalance(curBalance);
+
+    }
+
+}
+
+class SilverSavingAccount extends Account implements InterestBearingAccount {
+
+    protected SilverSavingAccount(String accountHolder, int accountNumber, char type, double currentBalance,
+
+        int status) {
+
+        super(accountHolder, accountNumber, type, currentBalance, status);
+
+       
+
+    }
+
+    @Override
+
+    public void addInterest() {
+
+       
+
+        double curBalance = getCurrentBalance();
+
+        curBalance += curBalance * 3 / 100;
+
+        setCurrentBalance(curBalance);
+
+    }
+
+}
+class PlatinumSavingAccount extends Account implements InterestBearingAccount {
+
+
+
+    protected PlatinumSavingAccount(String accountHolder, int accountNumber, char type, double currentBalance,
+
+        int status) {
+
+        super(accountHolder, accountNumber, type, currentBalance, status);
+
+       
+
+    }
+
+    @Override
+
+    public void addInterest() {
+
+        
+        double curBalance = getCurrentBalance();
+
+        curBalance += curBalance * 9 / 100;
+
+        setCurrentBalance(curBalance);
+
+    }
