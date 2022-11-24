@@ -1,273 +1,92 @@
-double totalAssets() {
+#include <iostream>
+using namespace std;
 
-    double total = 0;
-
-    for (int i = 0; i <= accountList.size() - 1; i++)
-
+class BankAccount
     {
-
-        if (accountList.get(i).getStatus() == 1)
-
-            total += accountList.get(i).getCurrentBalance();
-
-    }
-
-    return total;
-
-}
-
-void printReport() {
-
-    for (int i = 0; i <= accountList.size() - 1; i++)
-
+        public:
+        string owner;
+        double balance;
+        void deposit(double amount)
+        {
+            balance=balance+amount;
+            
+        }
+        void withdraw(double amount)
+        {
+            balance=balance-amount;
+        }
+    };
+    class CheckingAccount:public BankAccount
     {
-
-        accountList.get(i).printAccount();
-
-        System.out.println("----------------");
-
-    }
-
-}
-
-}
-
-interface InterestBearingAccount {
-
-    void addInterest();
-
-}
-
-abstract class Account {
-
-    private String accountHolder;
-
-    private int accountNumber;
-
-    private char type;
-
-    private double currentBalance;
-
-    private int status;
-
-
-    protected Account(String accountHolder, int accountNumber, char type, double currentBalance, int status) {
-
-        this.accountHolder = accountHolder;
-
-        this.accountNumber = accountNumber;
-
-        this.type = type;
-
-        this.currentBalance = currentBalance;
-
-        this.status = status;
-
-    }
-
-    public String getAccountHolder() {
-
-        return accountHolder;
-
-    }
-
-    public void setAccountHolder(String accountHolder) {
-
-        this.accountHolder = accountHolder;
-
-    }
-
-    public int getAccountNumber() {
-
-        return accountNumber;
-
-    }
-
-    public void setAccountNumber(int accountNumber) {
-
-        this.accountNumber = accountNumber;
-
-    }
-
-    public char getType() {
-
-        return type;
-
-    }
-
-    public void setType(char type) {
-
-        this.type = type;
-
-    }
-
-    public double getCurrentBalance() {
-
-        return currentBalance;
-
-    }
-
-    public void setCurrentBalance(double currentBalance) {
-
-        this.currentBalance = currentBalance;
-
-    }
-
-    public int getStatus() {
-
-        return status;
-
-    }
-
-    public void setStatus(int status) {
-
-        this.status = status;
-
-    }
-
-    void deposit(double amt) {
-
-
-        currentBalance += amt;
-
-    }
-
-    void withdraw(double amt) {
-
-        if (amt <= currentBalance)
-
-            currentBalance -= amt;
-
-        else
-
-            System.out.println("not enough balance");
-
-    }
-
-    void printAccount() {
-
-        System.out.println("Account number :" + accountNumber);
-
-        System.out.println("Account Holder Name :" + accountHolder);
-
-        System.out.println("Account Type :" + type);
-
-        System.out.println("Current Balance :" + currentBalance);
-
-
-
-        if (status == 1)
-
-            System.out.println("Account status : open");
-
-        else
-
-            System.out.println("Account status : closed");
-
-
-    }
-
-    @Override
-
-    public String toString() {
-
-        return "Account [accountHolder=" + accountHolder + ", accountNumber=" + accountNumber + ", type=" + type
-
-            +
-            ", currentBalance=" + currentBalance + ", status=" + status + "]";
-
-    }
-
-}
-
-class CheckingAccount extends Account {
-
-    protected CheckingAccount(String accountHolder, int accountNumber, char type, double currentBalance, int status) {
-
-        super(accountHolder, accountNumber, type, currentBalance, status);
-
+        public:
         
-
-    }
-
-}
-
-class GoldSavingAccount extends Account implements InterestBearingAccount {
-
-
-
-    protected GoldSavingAccount(String accountHolder, int accountNumber, char type, double currentBalance, int status) {
-
-        super(accountHolder, accountNumber, type, currentBalance, status);
-
-    }
-
-    @Override
-
-    public void addInterest() {
-
+        double insufficientFundsFee;
+        void processCheck(double checkAmount)
+        {
+            balance=balance+checkAmount;
+            
+        }
+        void withdraw(double amount)
+        {
+            balance=balance-amount;
+            if(balance<0)
+            {
+                balance=balance-insufficientFundsFee;
+            }
+        }
+    };
+    class SavingAccount:public BankAccount
+    {public:
+        double annualInterestRate;
+        double monthlyInterestRate;
+        double var1;
+        void depositMonthlyInterest()
+        {   monthlyInterestRate=annualInterestRate/12;
+            balance=balance+monthlyInterestRate;
+        }
+        void withdraw(double amount)
+        {
+          var1=balance-amount;
+          if(var1<0)
+          {
+             cout<<"Sorry,You do not have sufficient balance in your account";
+              
+          }
+          else{
+              balance=balance-amount;
+          }
+        }
         
-
-        double curBalance = getCurrentBalance();
-
-        curBalance += curBalance * 6 / 100;
-
-        setCurrentBalance(curBalance);
-
-    }
-
+    };
+    int main() {
+    SavingAccount sa,sa2;
+    CheckingAccount ca;
+    
+    sa.owner="joe";  
+    sa.balance=100;
+    sa.annualInterestRate=1;
+    
+    ca.owner="Emily";
+    ca.balance=200;
+    ca.insufficientFundsFee=10;
+    
+    sa.withdraw(25);
+    ca.processCheck(50);
+    
+    
+    ca.withdraw(100);
+    sa.deposit(100);
+    
+    
+    sa2.owner="Sam";
+    sa2.balance=250;//initial balance of sam account
+    sa2.annualInterestRate=0.5;
+    
+    sa.depositMonthlyInterest();
+    sa2.depositMonthlyInterest();
+    
+    ca.withdraw(500);
+    sa.withdraw(500);
+    
+    return 0;
 }
-
-class SilverSavingAccount extends Account implements InterestBearingAccount {
-
-    protected SilverSavingAccount(String accountHolder, int accountNumber, char type, double currentBalance,
-
-        int status) {
-
-        super(accountHolder, accountNumber, type, currentBalance, status);
-
-       
-
-    }
-
-    @Override
-
-    public void addInterest() {
-
-       
-
-        double curBalance = getCurrentBalance();
-
-        curBalance += curBalance * 3 / 100;
-
-        setCurrentBalance(curBalance);
-
-    }
-
-}
-class PlatinumSavingAccount extends Account implements InterestBearingAccount {
-
-
-
-    protected PlatinumSavingAccount(String accountHolder, int accountNumber, char type, double currentBalance,
-
-        int status) {
-
-        super(accountHolder, accountNumber, type, currentBalance, status);
-
-       
-
-    }
-
-    @Override
-
-    public void addInterest() {
-
-        
-        double curBalance = getCurrentBalance();
-
-        curBalance += curBalance * 9 / 100;
-
-        setCurrentBalance(curBalance);
-
-    }
